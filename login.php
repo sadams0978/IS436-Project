@@ -12,9 +12,9 @@ require '/var/www/html/vendor/autoload.php';
 $client = new Google_Client();
 
 // Client ID
-$client->setClientId("476218105755-scma8j6lu0r0at0id31u1onk06ku30e5.apps.googleusercontent.com");
+$client->setClientId($_ENV['Google_Client_ID']);
 // Client Secrect
-$client->setClientSecret("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");
+$client->setClientSecret($_ENV['Google_Client_Secret']);
 //Redirect URL
 $client->setRedirectUri('https://is436.arlcyber.me/login.php');
 
@@ -109,8 +109,7 @@ else:
 </head>
 <body>
 
-<div class="h-100 d-flex align-items-center justify-content-center">
-
+<div class="container" class= "text-center">
 <style>
     .heading{
         font-size: 30px;
@@ -124,18 +123,27 @@ else:
 
 <h2 class="heading">Login</h2>
 
-    <a type="button" class="btn btn-primary" href="login_local.php">
+<div class="container">
+  <div class="row" class="col">
+
+    <a type="button" class="btn btn-primary btn-lg" href="login_local.php">
             Local Login
     </a>
+</div>
 
-    <a type="button" class="btn btn-primary" href="create_user.php">
+
+<div class="row" class="col">
+
+    <a type="button" class="btn btn-primary btn-lg" href="create_user.php">
             Create an Local User
     </a>
+</div>
 
-    <a type="button" class="btn btn-primary" href="<?php echo $client->createAuthUrl(); ?>">
+<div class="row" class="col">
+    <a type="button" class="btn btn-primary btn-lg" href="<?php echo $client->createAuthUrl(); ?>">
             Sign in with Google
     </a>
-
+</div>
     </div>
 </body>
 </html>

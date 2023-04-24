@@ -1,9 +1,0 @@
-home.php notes:
-
-$user['profile_image']
-$user['name']
-$user['email']
-
-
-login.php notes: create Auth Button from Google
-<?php echo $client->createAuthUrl(); ?>
