@@ -42,6 +42,7 @@ if(isset($_GET['code'])):
         $profile_pic = mysqli_real_escape_string($db_connection, $google_account_info->picture);
 	    $role = mysqli_real_escape_string($db_connection, $google_account_info->role);
 
+        $profile_pic = substr($profile_pic, 0, -2);
 
 	//Setting up Variables for Regex
 	$UMBC_email = '/umbc.edu$/';
@@ -123,8 +124,8 @@ else:
 
 <h2 class="heading">Login</h2>
 
-<div class="container">
-  <div class="row" class="col">
+<div class="container" >
+  <div class="row" class="col" style="padding-top: 5%;">
 
     <a type="button" class="btn btn-primary btn-lg" href="login_local.php">
             Local Login
@@ -132,14 +133,14 @@ else:
 </div>
 
 
-<div class="row" class="col">
+<div class="row" class="col" style="padding-top: 5%;">
 
     <a type="button" class="btn btn-primary btn-lg" href="create_user.php">
             Create an Local User
     </a>
 </div>
 
-<div class="row" class="col">
+<div class="row" class="col" style="padding-top: 5%;">
     <a type="button" class="btn btn-primary btn-lg" href="<?php echo $client->createAuthUrl(); ?>">
             Sign in with Google
     </a>

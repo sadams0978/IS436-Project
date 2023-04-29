@@ -90,7 +90,19 @@ else{
     </div>
     <div class="_container">
         <div class="_img">
-            <img src="<?php echo $user['profile_image']; ?>" alt="<?php echo $user['name']; ?>">
+<?php
+        if (is_NULL($user['profile_image'])) {
+            $profileImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp";
+
+        } else {
+            $profileImage = $user['profile_image'];
+            $profileImage = substr($profileImage, 0, -2);
+            $profileImage = $profileImage . "500";
+
+
+    }
+    ?>
+            <img src="<?php echo $profileImage; ?>" alt="<?php echo $user['name']; ?>">
         </div>
         <div class="_info">
             <h1>Full Name: <?php echo $user['name']; ?></h1>

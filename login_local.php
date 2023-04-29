@@ -13,10 +13,9 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 	$UMBC_email = '/umbc.edu$/';
 
 	if (!preg_match($UMBC_email, $email)) {
-    		echo "You are unauthorized, log in using an @umbc.edu email address!";
-		echo $email;
-    		die();
-	}
+        echo "<div class='fixed-top'> <h2> Please use an E-Mail Address ending in  <strong> umbc.edu </strong> </h2></div>";
+        exit();
+      }
 
 
     // checking user already exists or not and select id and password hash
@@ -33,13 +32,14 @@ if(isset($_POST['email']) && isset($_POST['password'])){
             $_SESSION['login_id'] = $row['id']; 
             $_SESSION['user'] = $row['name'];
 
-            echo ("You are logged in, we are redirecting you to the home page in 10 seconds");
-            header('Refresh: 10; URL=home.php');
+            echo ("You are logged in, we are redirecting you to the home page in 5 seconds");
+            header('Refresh: 5; URL=home.php');
             exit;
 
         }
         else{
-            echo "Invalid email address or password!";
+            echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
+
         }
 
 
@@ -47,7 +47,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 
     }
     else{
-        echo "Invalid email address or password!";
+      echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
+
     }
 
 }

@@ -1,3 +1,31 @@
+<?php
+//Checks to see if user has Admin Role
+require 'config.php';
+include 'navbar.php';
+
+
+if(!isset($_SESSION['login_id'])){
+    header('Location: login.php');
+    exit;
+}
+
+//Get the user's role
+$user_id = $_SESSION['login_id'];
+$role = mysqli_query($db_connection, "SELECT `role` FROM `users` WHERE `id` = '$user_id'");
+$role = mysqli_fetch_assoc($role);
+$role = $role['role'];
+
+
+if ($role !== 'admin') {
+    header('Location: https://my.umbc.edu/401');
+    die();
+}
+
+
+
+?>
+
+
 <html>
 <head>
 	<title>Admin Page</title>
@@ -6,34 +34,14 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Admin Page</h1>
-		<p>Welcome, you are logged in as an Admin user</p>
-		<p><a href="logout.php">Logout</a></p>
+		<h1 style='text-align: center'>Admin Page </h1>
 	</div>
 </body>
 </html>
 
 
+
 <?php
-require 'config.php';
-
-if(!isset($_SESSION['login_id'])){
-    header('Location: login.php');
-    exit;
-}
-
-$id = $_SESSION['login_id'];
-
-$get_user = mysqli_query($db_connection, "SELECT * FROM `users` WHERE `id`='$id'");
-
-if(mysqli_num_rows($get_user) > 0){
-    $user = mysqli_fetch_assoc($get_user);
-	if ($user['role'] != 'admin') {
-		echo ('Sorry, you are not an Admin user, try again later');
-		die();
-	}
-}
-
 //Select all users from Database and display them in a table along with buttons to reset their password or delete them
 $query = 'select * from users';
 $result = mysqli_query($db_connection, $query);
@@ -73,7 +81,8 @@ if (mysqli_num_rows($result) > 0) {
 		echo '<td>' . $row['role'] . '</td>';
 		if ($auth == 'Google') {
 			echo '<td>Not Available</td>';
-			echo '<td>Not Available</td>';
+			echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete User</a></td>';
+
 		} else {
 			echo '<td><a href="reset_password.php?id=' . $row['id'] . '">Reset Password</a></td>';
 			echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete User</a></td>';

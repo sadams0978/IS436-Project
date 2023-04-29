@@ -7,7 +7,6 @@ $dotenv->load();
 
 
 session_start();
-session_regenerate_id(true);
 // change the information according to your database
 $db_connection = mysqli_connect($_ENV['db_hostname'],$_ENV['db_username'],$_ENV['db_password'],"google_login");
 // CHECK DATABASE CONNECTION

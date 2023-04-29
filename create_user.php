@@ -1,8 +1,9 @@
 <?php
 require 'config.php';
+session_destroy();
 
 //Local Login
-if(isset($_POST['email']) && isset($_POST['password'])){
+if(isset($_POST['email']) && isset($_POST['password']) && isset ($_POST['name'])){
 
     $email = mysqli_real_escape_string($db_connection, $_POST['email']);
     $password = mysqli_real_escape_string($db_connection, $_POST['password']);
@@ -12,40 +13,37 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 	$UMBC_email = '/umbc.edu$/';
 
 	if (!preg_match($UMBC_email, $email)) {
-    		echo "You are unauthorized, log in using an @umbc.edu email address!";
-		echo $email;
+    		echo "You are unauthorized, log in using an umbc.edu email address!";
+		    echo $email;
     		die();
 	}
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // checking user already exists or not
-    $get_user = mysqli_query($db_connection, "SELECT `id` FROM `users` WHERE `email`='$email' AND `password_hash`='$password_hash'");
+    $get_user = mysqli_query($db_connection, "SELECT `id` FROM `users` WHERE `email`='$email'");
     if(mysqli_num_rows($get_user) > 0){
+      session_start();
         $row = mysqli_fetch_assoc($get_user);
-        $_SESSION['login_id'] = $row['id']; 
-        echo ("You are logged in, we are redirecting you to the home page in 10 seconds");
-        header('Refresh: 10; URL=home.php');
-        exit;
+         
+        echo ("We have found an existing user with the same E-Mail, we are redirecting you to the login page in 5 seconds");
+        header('Refresh: 5; URL=home.php');
+        die();
 
-    }
-
-
-    else{
+    } else{
         //Create user in database
         $create_user = mysqli_query($db_connection, "INSERT INTO `users` (`login_type`,`id`, `name`, `email`, `role`, `password_hash`) VALUES ('Local' , NULL, '$name', '$email', 'default', '$password_hash')");
         if($create_user){
-            echo ("Your account was created, we are redirecting you to the login page in 10 seconds");
-            header('Refresh: 10; URL=login.php');
+            session_start();
+            echo ("Your account was created, we are redirecting you to the login page in 5 seconds");
+            header('Refresh: 5; URL=login.php');
             exit;
-        }
-        else{
+        } else{
             echo "Sorry, something went wrong. Please try again later.";
         }
-    }
 
-
-}
+    } 
+  } 
 ?>
 
 
@@ -105,7 +103,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
   </head>
 
   <body class="text-center">
-    <form class="form-signin" action="admin.php" method="post">
+    <form class="form-signin" action="create_user.php" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Create a User</h1>
 
       <label for='name'class="sr-only">Name:</label>
