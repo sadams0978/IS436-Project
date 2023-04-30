@@ -60,6 +60,8 @@ include 'navbar.php';
             <div class="d-flex justify-content-center mb-2">
               <button type="button" class="btn btn-primary">Follow</button>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+              <button onclick="window.location.href='profile/qr_code.php'" type="button" class="btn btn-secondary">QR Code</button>
+
             </div>
           </div>
         </div>

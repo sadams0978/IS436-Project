@@ -82,6 +82,8 @@ else{
             border-radius: 2px;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
+      
+
     </style>
 </head>
 <body>
@@ -102,15 +104,14 @@ else{
 
     }
     ?>
-            <img src="<?php echo $profileImage; ?>" alt="<?php echo $user['name']; ?>">
+        <img src="<?php echo $profileImage; ?>" alt="<?php echo $user['name']; ?>">
         </div>
         <div class="_info">
             <h1>Full Name: <?php echo $user['name']; ?></h1>
             <p>E-Mail Address: <?php echo $user['email']; ?></p>
 	    <p>User Role: <?php echo $user['role']; ?></p>
         <p>Login Provider: <?php echo $user['login_type']; ?></p>
-
-            <a href="logout.php">Logout</a>
+        <a href="logout.php">Logout</a>
         </div>
     </div>
 </body>
