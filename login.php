@@ -1,6 +1,5 @@
 <?php
 require 'config.php';
-
 if(isset($_SESSION['login_id'])){
     header('Location: home.php');
     exit;

@@ -28,7 +28,15 @@ if (!isset ($_GET['id']) ){
 //If the user's role is admin, then delete the user from the database
 if ($role == 'admin') {
     $user_to_delete = $_GET['id'];
+//Delete user from Datbase
     $delete = mysqli_query($db_connection, "DELETE FROM `users` WHERE `id` = '$user_to_delete'");
+
+    //If not successful in deleting the user, then display an error message
+    if (!$delete) {
+        echo ("Error: " . mysqli_error($db_connection));
+        die();
+    }
+    //If successful, then redirect to the admin page
     header('Location: admin.php');
     exit;
 }

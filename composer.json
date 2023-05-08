@@ -2,6 +2,7 @@
     "require": {
         "google/auth": "^1.26",
         "google/apiclient": "^2.13",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "chillerlan/php-qrcode": "^4.3"
     }
 }

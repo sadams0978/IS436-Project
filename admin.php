@@ -54,7 +54,7 @@ if (mysqli_num_rows($result) > 0) {
 	<th scope="col">E-Mail Address</th>
 	<th scope="col">Profile Image</th>
 	<th scope="col">Role</th>
-	<th scope="col">Reset Password</th>
+	<th scope="col">View Profile</th>
 	<th scope="col">Delete User</th></tr>';
 	while ($row = mysqli_fetch_assoc($result)) {
 
@@ -79,14 +79,8 @@ if (mysqli_num_rows($result) > 0) {
 		echo '<td>' . '<img src="'. $row['profile_image'] . '" width="50" height="50"/>'  . '</td>';
 
 		echo '<td>' . $row['role'] . '</td>';
-		if ($auth == 'Google') {
-			echo '<td>Not Available</td>';
-			echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete User</a></td>';
-
-		} else {
-			echo '<td><a href="reset_password.php?id=' . $row['id'] . '">Reset Password</a></td>';
-			echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete User</a></td>';
-		}
+		echo '<td><a href="/profile/link.php?id=' . $row['id'] . '">View Profile</a></td>';
+		echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete User</a></td>';
 
 		echo '</tr>';
 	}

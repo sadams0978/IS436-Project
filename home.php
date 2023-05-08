@@ -7,14 +7,25 @@
     <title>Homepage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/be0f7619b0.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="link.js"></script>
+    <script src="profile_update.js"></script>
+
+    <style type="text/css">
+        button{
+            border : none;
+            background-color: transparent;
+        }
+    </style>
+
 </head>
 <body>
 
 
-
-
 <?php
 require 'config.php';
+include 'update_db.php';
 include 'navbar.php';
 
 ?>
@@ -54,13 +65,18 @@ include 'navbar.php';
             ?>
             <img src=<?php echo $profileImage ?> alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3"><?php echo $_SESSION['name'] ?></h5>
-            <p class="text-muted mb-1">Full Stack Developer</p>
-            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+            <h5  class="my-3"><?php echo $_SESSION['name'] ?>  </h5>
+            <p name = "editable" class="text-muted mb-1"><?php echo $row['DetailField'] ?> </p> 
+            <p name = "editable" class="text-muted mb-4"><?php echo $row['City_State'] ?> </p>
             <div class="d-flex justify-content-center mb-2">
               <button type="button" class="btn btn-primary">Follow</button>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+              <button onclick="window.location.href='profile/qr_code.php'" type="button" class="btn btn-secondary">QR Code</button>
+              <button id="copyButton" type="button" class="btn btn-light">Link</button>
+
             </div>
+            <button onclick="changeToEditable()" id="editButton" name="editButton" > <i  class="fa-solid fa-user-pen"> </i>Edit</button>
+
           </div>
         </div>
         <div class="card mb-4 mb-lg-0">
@@ -68,23 +84,28 @@ include 'navbar.php';
             <ul class="list-group list-group-flush rounded-3">
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fas fa-globe fa-lg text-warning"></i>
-                <p class="mb-0">https://mdbootstrap.com</p>
+                <p id="Web_URL" name = "editable" class="mb-0"><?php echo $row['Web_URL'] ?> </p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p id="GitHub_URL" name = "editable" class="mb-0"><?php echo $row['GitHub_URL'] ?></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                <p class="mb-0">@mdbootstrap</p>
+                <p id="Twitter_URL" name = "editable" class="mb-0"><?php echo $row['Twitter_URL'] ?></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p  id="Instagram_URL" name = "editable" class="mb-0"><?php echo $row['Instagram_URL'] ?></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p  id="Facebook_URL" name = "editable" class="mb-0"><?php echo $row['Facebook_URL'] ?></p>
+              </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <i class="fab fa-linkedin-in fa-lg" style="color: #3b5998;"></i>
+                <p  id="Linkedin_URL" name = "editable" class="mb-0"><?php echo $row['Linkedin_URL'] ?></p>
+              </li>
               </li>
             </ul>
           </div>
@@ -98,7 +119,7 @@ include 'navbar.php';
                 <p class="mb-0">Full Name</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0"><?php echo $_SESSION['name'] ?></p>
+                <p  class="text-muted mb-0"><?php echo $_SESSION['name'] ?> </p>
               </div>
             </div>
             <hr>
@@ -107,112 +128,100 @@ include 'navbar.php';
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0"><?php echo $_SESSION['email'] ?></p>
+                <p class="text-muted mb-0"><?php echo $_SESSION['email'] ?> </p>
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Phone</p>
+                <p id="Custom_1" name = "editable" class="mb-0"><?php echo $row['Custom_1'] ?></p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">(097) 234-5678</p>
+                <p id="Custom_1_Detail" name = "editable" class="text-muted mb-0"><?php echo $row['Custom_1_Detail'] ?> </p>
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Mobile</p>
+                <p id="Custom_2" name = "editable"  class="mb-0"><?php echo $row['Custom_2'] ?> </p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">(098) 765-4321</p>
+                <p id="Custom_2_Detail" name = "editable" class="mb-0"><?php echo $row['Custom_2_Detail'] ?></p>
+
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Address</p>
+                <p id="Custom_3" name = "editable" class="mb-0"><?php echo $row['Custom_3'] ?></p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+              <p id="Custom_3_Detail" name = "editable" class="mb-0"><?php echo $row['Custom_3_Detail'] ?></p>
+
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+       
+
+<!-- Second Collection of Items -->
+  <div class="col-lg-13">
+        <div class="card mb-4 mb-md-0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p id="Custom_4" name="editable" class="mb-0"><?php echo $row['Custom_4'] ?></p>
+              </div>
+              <div class="col-sm-9">
+                <p id="Custom_4_Detail"  name="editable" class="text-muted mb-0"><?php echo $row['Custom_4_Detail'] ?></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p id="Custom_5" name="editable" class="mb-0"><?php echo $row['Custom_5'] ?></p>
+              </div>
+              <div class="col-sm-9">
+                <p id="Custom_5_Detail" name="editable" class="text-muted mb-0"><?php echo $row['Custom_5_Detail'] ?></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p id="Custom_6" name = "editable" class="mb-0"><?php echo $row['Custom_6'] ?></p>
+              </div>
+              <div class="col-sm-9">
+                <p id="Custom_6_Detail" name = "editable" class="text-muted mb-0"><?php echo $row['Custom_6_Detail'] ?></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p id="Custom_7" name = "editable"  class="mb-0"><?php echo $row['Custom_7'] ?></p>
+              </div>
+              <div class="col-sm-9">
+                <p id="Custom_7_Detail" name = "editable" class="mb-0"><?php echo $row['Custom_7_Detail'] ?></p>
+
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p id="Custom_8" name = "editable" class="mb-0"><?php echo $row['Custom_8'] ?></p>
+              </div>
+              <div class="col-sm-9">
+              <p id="Custom_8_Detail" name = "editable" class="mb-0"><?php echo $row['Custom_8_Detail'] ?> </p>
+
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
+        </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-
-
 </body>           
 </html>

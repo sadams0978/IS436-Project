@@ -24,6 +24,12 @@ else{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="reset_password.js"></script>
+
+
     <title><?php echo $user['name']; ?></title>
     <style>
         *,
@@ -82,6 +88,8 @@ else{
             border-radius: 2px;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
+      
+
     </style>
 </head>
 <body>
@@ -102,7 +110,7 @@ else{
 
     }
     ?>
-            <img src="<?php echo $profileImage; ?>" alt="<?php echo $user['name']; ?>">
+        <img src="<?php echo $profileImage; ?>" alt="<?php echo $user['name']; ?>">
         </div>
         <div class="_info">
             <h1>Full Name: <?php echo $user['name']; ?></h1>
@@ -110,7 +118,19 @@ else{
 	    <p>User Role: <?php echo $user['role']; ?></p>
         <p>Login Provider: <?php echo $user['login_type']; ?></p>
 
-            <a href="logout.php">Logout</a>
+        <?php
+        if ($user['login_type'] == "Local") {
+            //HTML form for password reset
+            echo "<form action='reset_password.php' method='post'>
+            <input type='hidden' name='email' value='" . $user['email'] . "'>
+            <label for='password'>New Password</label>
+            <input  type='password' id='password' name='password' >
+            <button type='submit' class='btn btn-success' > Reset Password </button>
+            </form>";
+
+
+        }
+        ?>
         </div>
     </div>
 </body>
