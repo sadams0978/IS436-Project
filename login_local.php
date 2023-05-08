@@ -1,60 +1,3 @@
-<?php
-include 'config.php';
-session_start();
-//Local Login
-if(isset($_POST['email']) && isset($_POST['password'])){
-
-    $email = mysqli_real_escape_string($db_connection, $_POST['email']);
-    $password = mysqli_real_escape_string($db_connection, $_POST['password']);
-
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-    //Setting up Variables for Regex
-	$UMBC_email = '/umbc.edu$/';
-
-	if (!preg_match($UMBC_email, $email)) {
-        echo "<div class='fixed-top'> <h2> Please use an E-Mail Address ending in  <strong> umbc.edu </strong> </h2></div>";
-        exit();
-      }
-
-
-    // checking user already exists or not and select id and password hash
-    $get_user = mysqli_query($db_connection, "SELECT `id`, `password_hash`, `name` FROM `users` WHERE `email`='$email'");
-
-    if(mysqli_num_rows($get_user) > 0){
-
-    
-        $row = mysqli_fetch_assoc($get_user);
-   
-
-        if (password_verify($password, $row['password_hash'])) {
-
-            $_SESSION['login_id'] = $row['id']; 
-            $_SESSION['user'] = $row['name'];
-
-            echo ("You are logged in, we are redirecting you to the home page in 5 seconds");
-            header('Refresh: 5; URL=home.php');
-            exit;
-
-        }
-        else{
-            echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
-
-        }
-
-
-
-
-    }
-    else{
-      echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
-
-    }
-
-}
-?>
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -106,6 +49,73 @@ if(isset($_POST['email']) && isset($_POST['password'])){
       }
     </style>
   </head>
+
+
+
+
+<?php
+include 'config.php';
+session_start();
+//Local Login
+if(isset($_POST['email']) && isset($_POST['password'])){
+
+    $email = mysqli_real_escape_string($db_connection, $_POST['email']);
+    $password = mysqli_real_escape_string($db_connection, $_POST['password']);
+
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    //Setting up Variables for Regex
+	$UMBC_email = '/umbc.edu$/';
+
+	if (!preg_match($UMBC_email, $email)) {
+        echo "<div class='fixed-top'> <h2> Please use an E-Mail Address ending in  <strong> umbc.edu </strong> </h2></div>";
+        exit();
+      }
+
+
+    // checking user already exists or not and select id and password hash
+    $get_user = mysqli_query($db_connection, "SELECT `id`, `password_hash`, `name` FROM `users` WHERE `email`='$email'");
+
+    if(mysqli_num_rows($get_user) > 0){
+
+    
+        $row = mysqli_fetch_assoc($get_user);
+   
+
+        if (password_verify($password, $row['password_hash'])) {
+
+            $_SESSION['login_id'] = $row['id']; 
+            $_SESSION['user'] = $row['name'];
+
+            echo ("<body> ");
+            echo "<div class='d-flex justify-content-center'> <h2> Welcome, " . $_SESSION['user'] . " </h2>";
+            echo ("<div class='spinner-border text-success' style='width: 3rem; height: 3rem;' role='status'>
+              <span class='sr-only'></span>
+            </div>
+          </div>");
+          echo ("</body>");
+          
+          header('Refresh: 3; URL=home.php');
+          exit;
+
+        }
+        else{
+            echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
+
+        }
+
+
+
+
+    }
+    else{
+      echo "<div class='fixed-top'> <h2> Invalid Email Address or Password </h2></div>";
+
+    }
+
+}
+?>
+
 
   <body class="text-center">
     <form class="form-signin" action="login_local.php" method="post">

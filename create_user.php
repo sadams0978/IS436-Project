@@ -1,55 +1,3 @@
-<?php
-require 'config.php';
-session_destroy();
-
-//Local Login
-if(isset($_POST['email']) && isset($_POST['password']) && isset ($_POST['name'])){
-
-    $email = mysqli_real_escape_string($db_connection, $_POST['email']);
-    $password = mysqli_real_escape_string($db_connection, $_POST['password']);
-    $name = mysqli_real_escape_string($db_connection, $_POST['name']);
-
-    //Setting up Variables for Regex
-	$UMBC_email = '/umbc.edu$/';
-
-	if (!preg_match($UMBC_email, $email)) {
-    		echo "You are unauthorized, log in using an umbc.edu email address!";
-		    echo $email;
-    		die();
-	}
-
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-    // checking user already exists or not
-    $get_user = mysqli_query($db_connection, "SELECT `id` FROM `users` WHERE `email`='$email'");
-    if(mysqli_num_rows($get_user) > 0){
-      session_start();
-        $row = mysqli_fetch_assoc($get_user);
-         
-        echo ("We have found an existing user with the same E-Mail, we are redirecting you to the login page in 5 seconds");
-        header('Refresh: 5; URL=home.php');
-        die();
-
-    } else{
-        //Create user in database
-        $create_user = mysqli_query($db_connection, "INSERT INTO `users` (`login_type`,`id`, `name`, `email`, `role`, `password_hash`) VALUES ('Local' , NULL, '$name', '$email', 'default', '$password_hash')");
-        if($create_user){
-            session_start();
-            echo ("Your account was created, we are redirecting you to the login page in 5 seconds");
-            header('Refresh: 5; URL=login.php');
-            exit;
-        } else{
-            echo "Sorry, something went wrong. Please try again later.";
-        }
-
-    } 
-  } 
-?>
-
-
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -102,6 +50,66 @@ if(isset($_POST['email']) && isset($_POST['password']) && isset ($_POST['name'])
     </style>
   </head>
 
+
+<?php
+require 'config.php';
+session_destroy();
+
+//Local Login
+if(isset($_POST['email']) && isset($_POST['password']) && isset ($_POST['name'])){
+
+    $email = mysqli_real_escape_string($db_connection, $_POST['email']);
+    $password = mysqli_real_escape_string($db_connection, $_POST['password']);
+    $name = mysqli_real_escape_string($db_connection, $_POST['name']);
+
+    //Setting up Variables for Regex
+	$UMBC_email = '/umbc.edu$/';
+
+	if (!preg_match($UMBC_email, $email)) {
+    		echo "You are unauthorized, log in using an umbc.edu email address!";
+		    echo $email;
+    		die();
+	}
+
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    // checking user already exists or not
+    $get_user = mysqli_query($db_connection, "SELECT `id` FROM `users` WHERE `email`='$email'");
+    if(mysqli_num_rows($get_user) > 0){
+      session_start();
+        $row = mysqli_fetch_assoc($get_user);
+         
+        echo ("We have found an existing user with the same E-Mail, we are redirecting you to the login page in 5 seconds");
+        header('Refresh: 5; URL=home.php');
+        die();
+
+    } else{
+        //Create user in database
+        $create_user = mysqli_query($db_connection, "INSERT INTO `users` (`login_type`,`id`, `name`, `email`, `role`, `password_hash`) VALUES ('Local' , NULL, '$name', '$email', 'default', '$password_hash')");
+        if($create_user){
+            session_start();
+            echo ("<body> ");
+            echo "<div class='d-flex justify-content-center'> <h2> Redirecting you to the Login page... </h2>";
+            echo ("<div class='spinner-border text-success' style='width: 3rem; height: 3rem;' role='status'>
+              <span class='sr-only'></span>
+            </div>
+          </div>");
+          echo ("</body>");
+  
+          header('Refresh: 3; URL=login.php');
+          exit;
+
+
+
+        } else{
+            echo "Sorry, something went wrong. Please try again later.";
+        }
+
+    } 
+  } 
+?>
+
+
   <body class="text-center">
     <form class="form-signin" action="create_user.php" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Create a User</h1>
@@ -116,7 +124,7 @@ if(isset($_POST['email']) && isset($_POST['password']) && isset ($_POST['name'])
       <input type="password" name = "password"  id="password" class="form-control" placeholder="Password" required>
       
       <button type="submit" class="btn btn-primary">Submit</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
+      <p class="mt-5 mb-3 text-muted">&copy; IS 436 Spring 2023</p>
     </form>
   </body>
 </html>
