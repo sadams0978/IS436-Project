@@ -66,8 +66,8 @@ include 'navbar.php';
             <img src=<?php echo $profileImage ?> alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;">
             <h5  class="my-3"><?php echo $_SESSION['name'] ?>  </h5>
-            <p name = "editable" class="text-muted mb-1"><?php echo $row['DetailField'] ?> </p> 
-            <p name = "editable" class="text-muted mb-4"><?php echo $row['City_State'] ?> </p>
+            <p id="DetailField" name = "editable" class="text-muted mb-1"><?php echo $row['DetailField'] ?> </p> 
+            <p id="City_State" name = "editable" class="text-muted mb-4"><?php echo $row['City_State'] ?> </p>
             <div class="d-flex justify-content-center mb-2">
               <button type="button" class="btn btn-primary">Follow</button>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
